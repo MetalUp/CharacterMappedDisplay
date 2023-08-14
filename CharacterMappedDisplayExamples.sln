@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PackageSource", "PackageSource\PackageSource.csproj", "{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphTest", "GraphTest\GraphTest.csproj", "{64FCC865-BA86-44F5-AABC-70E16E62BA66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snake", "Snake\Snake.csproj", "{F9DC28B6-E375-43D9-8FC6-68D5DC3C1C5C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FCC865-BA86-44F5-AABC-70E16E62BA66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FCC865-BA86-44F5-AABC-70E16E62BA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FCC865-BA86-44F5-AABC-70E16E62BA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FCC865-BA86-44F5-AABC-70E16E62BA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9DC28B6-E375-43D9-8FC6-68D5DC3C1C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9DC28B6-E375-43D9-8FC6-68D5DC3C1C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9DC28B6-E375-43D9-8FC6-68D5DC3C1C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9DC28B6-E375-43D9-8FC6-68D5DC3C1C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {288311BA-ED72-4906-8536-F49C571AC757}
+	EndGlobalSection
+EndGlobal
