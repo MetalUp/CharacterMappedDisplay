@@ -1,4 +1,4 @@
-﻿using static ElanConsole;
+﻿using static EntryPoints;
 
 class Program
 {

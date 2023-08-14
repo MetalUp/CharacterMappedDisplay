@@ -6,11 +6,11 @@ public class XYGraph
     // Configuration properties
     public int originOffsetCol { get; set; } = 8; //of char containing pixel[0,0] relative to character grid
     public int originOffsetRow { get; set; } = 27; //of char containing pixel[0,0] relative to character grid
-    public int xPixels { get; set; } = 200;
-    public int yPixels { get; set; } = 50;
+    public int xPixels { get; set; } = 201;
+    public int yPixels { get; set; } = 51;
 
-    public int xScalePowerOf10 { get; set; } = 0; // 0 = 0-.99, 1 = range 0-9.9, 2 = 0-99, can be negative also
-    public int yScalePowerOf10 { get; set; } = 0; // but will be recalculated automatically based on y values
+    public int xScalePowerOf10 { get; set; } = 0; // 0 => 0:1, 1 => 0:10, etc, can be negative also
+    public int yScalePowerOf10 { get; set; } = 0; //  will be recalculated automatically based on y values
 
     public XYGraph()
     {
@@ -18,7 +18,7 @@ public class XYGraph
     }
 
     private double xMaxValue =>  Pow(10, xScalePowerOf10)*10;
-    private double incrementPerPixel => xMaxValue / xPixels;
+    private double incrementPerPixel => xMaxValue / (xPixels-1);
     private readonly List<(int,int)> pixels = new();
 
     private void SetPixel(int x, int y)
@@ -43,9 +43,9 @@ public class XYGraph
         var maxY = yValues.Max();
         //var minY = yValues.Min();
 
-        yScalePowerOf10 =(int) Log10(maxY);
+        yScalePowerOf10 = (int) Pow(10, (int)Log10(maxY));
 
-        var yScaleFactor = (yPixels - 1) / Pow(10,yScalePowerOf10+1); 
+        var yScaleFactor = (yPixels - 1) / yScalePowerOf10; 
 
         for (int i = 0; i < xPixels; i++)
         {
@@ -65,6 +65,7 @@ public class XYGraph
     public void DrawAllPixels()
     {
         var chars = new Dictionary<(int, int), int>();
+        pixels.Reverse();
         foreach (var pixel in pixels)
         {
             var x = pixel.Item1+1;
@@ -91,27 +92,27 @@ public class XYGraph
     private void DrawXAxis()  //TODO: label axes and gradations
     {
 
-        for (int c = originOffsetCol; c < originOffsetCol + xPixels / 2; c += 2)
+        for (int c = originOffsetCol; c <= originOffsetCol + xPixels / 2; c += 2)
         {
             Console.SetCursorPosition(c, originOffsetRow);
             Console.Write('\u252c');
             Console.Write(Symbol.line_H);
         }
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i <= 10; i++)
         {
             Console.SetCursorPosition(originOffsetCol + i * 10, originOffsetRow + 1);
             Console.Write(i);
         }
-        Console.Write("       " + scaleFactor(xScalePowerOf10));
+        Console.Write(" " + scaleFactor(xScalePowerOf10));
     }
 
     private void DrawYAxis() { 
-        for (int r = originOffsetRow; r > originOffsetRow - yPixels/2; r--)
+        for (int r = originOffsetRow; r >= originOffsetRow - yPixels/2; r--)
         {
             Console.SetCursorPosition(originOffsetCol, r);
             Console.Write(Symbol.cross);
         }
-        for (int i = 0; i < 10; i += 2)
+        for (int i = 0; i <= 10; i += 2)
         {
             Console.SetCursorPosition(originOffsetCol - 4, (int) (originOffsetRow - i * 2.5));
             Console.Write(i);

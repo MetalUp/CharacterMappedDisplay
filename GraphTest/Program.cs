@@ -1,11 +1,11 @@
-﻿using static ElanConsole;
+﻿using static EntryPoints;
 
 class Program
 {
     public static void Main()
     {
-        var g = new XYGraph() { xScalePowerOf10 = 1};
-        g.Plot(square);
+        var g = new XYGraph();// { xScalePowerOf10 = 1};
+        g.Plot(halfSin);
         g.Draw();
         Keyboard.readKeyWithoutPrinting();
     }
@@ -16,7 +16,7 @@ class Program
 
     public static double exp(double x) => Math.Pow(Math.E,x);
 
-
+    public static double halfSin(double x) => Math.Abs(Math.Sin(x/180*Math.PI));
 
 
 }

@@ -1,4 +1,4 @@
-﻿public static class ElanConsole
+﻿public static class EntryPoints
 {
     public static DisplayImpl Display = new DisplayImpl();
 
