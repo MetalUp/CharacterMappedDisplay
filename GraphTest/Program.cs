@@ -3,10 +3,11 @@
 class Program
 {
     public static void Main()
-    {
-        var g = new XYGraph() { xScalePowerOf10 = 2};
-        g.Plot(halfSin);
-        g.Draw();
+    {  
+        var g = new XYGraph() { xMin = 0, xMax = Math.PI *2 };
+        g.Plot(Math.Sin);
+        g.Plot(Math.Cos);
+        Display.DrawGraph(g);
         Keyboard.readKeyWithoutPrinting();
     }
 

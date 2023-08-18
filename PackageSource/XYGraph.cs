@@ -1,160 +1,90 @@
 ﻿using System.Text;
-using static System.Math;
 
 public class XYGraph
 {
     // Configuration properties
-    public int originOffsetCol { get; set; } = 8; //of char containing pixel[0,0] relative to character grid
-    public int originOffsetRow { get; set; } = 27; //of char containing pixel[0,0] relative to character grid
-    public int xPixels { get; set; } = 201;
-    public int yPixels { get; set; } = 51;
+    public int offsetCol { get; set; } = 8; //of lower-left char
+    public int offsetRow { get; set; } = 27; //of lower-left char
 
-    public int xScalePowerOf10 { get; set; } = 0; // can be negative also
-    public int yScalePowerOf10 { get; set; } = 0; // will be recalculated automatically based on y values
-    private double xMaxValue => Pow(10, xScalePowerOf10);
-    private double incrementPerPixel => xMaxValue / (xPixels - 1);
+    public int xPoints { get; set; } = 201;
+    public int yPoints { get; set; } = 51;
 
+    public double xMin { get; set; } = 0;
+    public double xMax { get; set; } = 10;
 
+    private double xIncrementPerPoint => (xMax - xMin) / (xPoints - 1);
 
-    public XYGraph()
+    private double yMax;
+    private double yMin;
+    private double yIncrementPerPoint;
+
+    private readonly List<(int, int)> points = new();
+
+    public void SetPoint(int x, int y)
     {
-        Console.OutputEncoding = Encoding.UTF8;
+        points.Add((x, y));
     }
 
 
-    private readonly List<(int, int)> pixels = new();
-
-    private void SetPixel(int x, int y)
+    public void ClearPoint(int x, int y)
     {
-        pixels.Add((x, y));
+        points.Remove((x, y));
     }
 
-    public void ClearAllPixels()
+    public void ClearAllPoints()
     {
-        pixels.Clear();
+        points.Clear();
     }
 
     public void Plot(Func<double, double> f)
     {
-        ClearAllPixels();
-        double[] yValues = new double[xPixels];
-        for (int i = 0; i < xPixels; i++)
+        var yValues = new double[xPoints];
+        for (int i = 0; i < xPoints; i++)
         {
-            var xValue = i * incrementPerPixel;
+            var xValue = xMin + i * xIncrementPerPoint;
             yValues[i] = f(xValue);
         }
-        var maxY = yValues.Max();
-        //var minY = yValues.Min();
-
-        var yLog = Log10(maxY);
-        var intYLog = (int)yLog;
-        yScalePowerOf10 = yLog == intYLog ? intYLog : intYLog + 1;
-
-        var yScaleFactor = (yPixels - 1) / Pow(10, yScalePowerOf10);
-
-        for (int i = 0; i < xPixels; i++)
+        yMax = yValues.Max();
+        yMin = yValues.Min();
+        yIncrementPerPoint = (yMax - yMin) / (yPoints -1);
+        for (int i = 0; i < xPoints; i++)
         {
-            int y = (int)(yValues[i] * yScaleFactor);  //Check
-            SetPixel(i, y);
+            int y = (int)( ( yValues[i] - yMin) / yIncrementPerPoint); 
+            SetPoint(i, y);
         }
     }
 
-    public void Draw()
-    {
-        DrawXAxis();
-        DrawYAxis();
-        DrawAllPixels();
+    public int originCol => (int)(xMin >= 0 ? offsetCol : offsetCol - (xMin / xIncrementPerPoint / 2));
+    public int originRow => (int)(yMin >= 0 ? offsetRow : offsetRow + yMin / yIncrementPerPoint / 2);
 
-    }
 
-    public void DrawAllPixels()
+
+    public Dictionary<(int, int), char> getCharsRepresentingPixels()
     {
-        var chars = new Dictionary<(int, int), int>();
-        pixels.Reverse();
-        foreach (var pixel in pixels)
+        var chars = new Dictionary<(int, int), char>();
+        foreach (var pixel in points)
         {
             var x = pixel.Item1 + 1;
             var y = pixel.Item2 + 1;
-            var charPos = (x / 2 + originOffsetCol, originOffsetRow - y / 2);
-            var bit = (x % 2 + 1) * (y % 2 * 3 + 1);
+            var charPos = (x / 2, y / 2);
+            var newBit = (x % 2 + 1) * (y % 2 * 3 + 1);
             if (chars.ContainsKey(charPos))
             {
-                chars[charPos] |= bit;
+                chars[charPos] = charWithNewBitAdded(chars[charPos], newBit);
             }
             else
             {
-                chars[charPos] = bit;
+                chars[charPos] = quarterChars[newBit];
             }
         }
-        foreach (var key in chars.Keys)
-        {
-            Console.SetCursorPosition(key.Item1, key.Item2);
-            var binaryVal = chars[key];
-            Console.Write(quarterChars[binaryVal]);
-        }
+        return chars;
     }
 
-
-
-    private void DrawXAxis()  //TODO: label axes 
+    private char charWithNewBitAdded(char existing, int newBit)
     {
-
-        for (int c = originOffsetCol; c <= originOffsetCol + xPixels / 2; c += 2)
-        {
-            Console.SetCursorPosition(c, originOffsetRow);
-            Console.Write('\u252c');
-            Console.Write(Symbol.line_H);
-        }
-
-        for (int n = 0; n <= 10; n++)
-        {
-            Console.SetCursorPosition(originOffsetCol + n * 10, originOffsetRow + 1);
-            Console.Write(labelForGradationNo(n));
-        }
-        Console.Write(" " + powerOf10(xScalePowerOf10));
+        return quarterChars[quarterChars.IndexOf(existing) | newBit];
     }
-
-    private string labelForGradationNo(int n) => n == 0 ? "0" : n == 10 ? "1" : "." + n;
-
-
-    private void DrawYAxis()
-    {
-        for (int r = originOffsetRow; r >= originOffsetRow - yPixels / 2; r--)
-        {
-            Console.SetCursorPosition(originOffsetCol, r);
-            Console.Write(Symbol.cross);
-        }
-
-        for (int n = 0; n <= 10; n += 2)
-        {
-            Console.SetCursorPosition(originOffsetCol - 4, (int)(originOffsetRow - n * 2.5));
-            Console.Write(labelForGradationNo(n));
-        }
-        Console.SetCursorPosition(originOffsetCol - 1, originOffsetRow - yPixels / 2 - 1);
-        Console.Write(powerOf10(yScalePowerOf10));
-    }
-
-
 
     //Character values for different combinations of quarter-blocks, corresponding to binary values 0000 to 1111:
-    private List<char> quarterChars = new() { ' ', '\u2596', '\u2597', '\u2584', '\u2598', '\u258c', '\u259a', '\u2599', '\u259D', '\u259e', '\u2590', '\u259f', '\u2580', '\u259b', '\u259c', '\u2588' };
-
-    private string powerOf10(int p) =>
-         p == 0 ? "" : "x10" + superScript(p);
-
-    private string superScript(int p) => p switch
-    {
-        _ when p < 0 => '\u207B' + superScript(Abs(p)),
-        1 => "\u00b9",
-        2 => "\u00b2",
-        3 => "\u00b3",
-        4 => "\u2074",
-        5 => "\u2075",
-        6 => "\u2076",
-        7 => "\u2077",
-        8 => "\u2078",
-        9 => "\u2079",
-        _ => "error"
-    };
-
+    private static List<char> quarterChars = new() { ' ', '\u2596', '\u2597', '\u2584', '\u2598', '\u258c', '\u259a', '\u2599', '\u259D', '\u259e', '\u2590', '\u259f', '\u2580', '\u259b', '\u259c', '\u2588' };
 }

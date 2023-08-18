@@ -99,6 +99,38 @@ public class DisplayImpl
         Console.Clear();
     }
 
+    public void DrawGraph(XYGraph graph)
+    {
+        DrawAxes(graph);
+        DrawAllPixels(graph);
+    }
 
+    private void DrawAxes(XYGraph g)  //TODO: label axes and start end values
+    {
+
+        Console.SetCursorPosition(g.originCol, g.originRow);
+        Console.Write(Symbol.cross);
+        for (int c = g.offsetCol + 1; c <= g.offsetCol + g.xPoints / 2; c++)
+        {
+            Console.SetCursorPosition(c, g.originRow);
+            Console.Write(Symbol.line_H);
+        }
+        for (int r = g.offsetRow - 1; r >= g.offsetRow - g.yPoints / 2; r--)
+        {
+            Console.SetCursorPosition(g.originCol, r);
+            Console.Write(Symbol.line_V);
+        }
+    }
+
+
+    private void DrawAllPixels(XYGraph g)
+    {
+        var chars = g.getCharsRepresentingPixels();
+        foreach (var key in chars.Keys)
+        {
+            Console.SetCursorPosition(key.Item1 + g.offsetCol, g.offsetRow - key.Item2);
+            Console.Write(chars[key]);
+        }
+    }
 
 }
