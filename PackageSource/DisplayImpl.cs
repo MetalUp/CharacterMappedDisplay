@@ -99,13 +99,14 @@ public class DisplayImpl
         Console.Clear();
     }
 
-    public void DrawGraph(XYGraph graph)
+    #region XYGraphs
+    public void DrawXYGraph(XYGraph graph)
     {
-        DrawAxes(graph);
-        DrawAllPixels(graph);
+        DrawXYAxes(graph);
+        DrawAllXYPoints(graph);
     }
 
-    private void DrawAxes(XYGraph g)  //TODO: label axes and start end values
+    private void DrawXYAxes(XYGraph g)  //TODO: Add start end values
     {
 
         Console.SetCursorPosition(g.originCol, g.originRow);
@@ -115,22 +116,27 @@ public class DisplayImpl
             Console.SetCursorPosition(c, g.originRow);
             Console.Write(Symbol.line_H);
         }
+        Console.SetCursorPosition(g.offsetCol + g.xPoints / 2 + 1, g.originRow) ;
+        Console.Write(" " + g.xAxisName);
+
         for (int r = g.offsetRow - 1; r >= g.offsetRow - g.yPoints / 2; r--)
         {
             Console.SetCursorPosition(g.originCol, r);
             Console.Write(Symbol.line_V);
         }
+        Console.SetCursorPosition(g.originCol - 3, g.offsetRow - g.yPoints /2 -1);
+        Console.Write(g.yAxisName);
     }
 
 
-    private void DrawAllPixels(XYGraph g)
+    private void DrawAllXYPoints(XYGraph g)
     {
-        var chars = g.getCharsRepresentingPixels();
+        var chars = g.getCharsRepresentingPoints();
         foreach (var key in chars.Keys)
         {
             Console.SetCursorPosition(key.Item1 + g.offsetCol, g.offsetRow - key.Item2);
             Console.Write(chars[key]);
         }
     }
-
+    #endregion
 }

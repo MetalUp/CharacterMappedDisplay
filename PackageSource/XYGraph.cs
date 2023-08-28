@@ -11,12 +11,13 @@ public class XYGraph
 
     public double xMin { get; set; } = 0;
     public double xMax { get; set; } = 10;
-
     private double xIncrementPerPoint => (xMax - xMin) / (xPoints - 1);
+    public string xAxisName { get; set; } = "X";
 
     private double yMax;
     private double yMin;
     private double yIncrementPerPoint;
+    public string yAxisName { get; set; } = "Y";
 
     private readonly List<(int, int)> points = new();
 
@@ -36,7 +37,7 @@ public class XYGraph
         points.Clear();
     }
 
-    public void Plot(Func<double, double> f)
+    public void PlotFunction(Func<double, double> f)
     {
         var yValues = new double[xPoints];
         for (int i = 0; i < xPoints; i++)
@@ -59,7 +60,7 @@ public class XYGraph
 
 
 
-    public Dictionary<(int, int), char> getCharsRepresentingPixels()
+    public Dictionary<(int, int), char> getCharsRepresentingPoints()
     {
         var chars = new Dictionary<(int, int), char>();
         foreach (var pixel in points)
