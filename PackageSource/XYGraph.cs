@@ -47,10 +47,10 @@ public class XYGraph
         }
         yMax = yValues.Max();
         yMin = yValues.Min();
-        yIncrementPerPoint = (yMax - yMin) / (yPoints -1);
+        yIncrementPerPoint = (yMax - yMin) / (yPoints - 1);
         for (int i = 0; i < xPoints; i++)
         {
-            int y = (int)( ( yValues[i] - yMin) / yIncrementPerPoint); 
+            int y = (int)((yValues[i] - yMin) / yIncrementPerPoint);
             SetPoint(i, y);
         }
     }
@@ -88,4 +88,45 @@ public class XYGraph
 
     //Character values for different combinations of quarter-blocks, corresponding to binary values 0000 to 1111:
     private static List<char> quarterChars = new() { ' ', '\u2596', '\u2597', '\u2584', '\u2598', '\u258c', '\u259a', '\u2599', '\u259D', '\u259e', '\u2590', '\u259f', '\u2580', '\u259b', '\u259c', '\u2588' };
+
+    #region Draw
+    public void Draw()
+    {
+        DrawXYAxes();
+        DrawAllXYPoints();
+    }
+
+    private void DrawXYAxes()  //TODO: Add start end values
+    {
+
+        Console.SetCursorPosition(originCol, originRow);
+        Console.Write(Symbol.cross);
+        for (int c = offsetCol + 1; c <= offsetCol + xPoints / 2; c++)
+        {
+            Console.SetCursorPosition(c, originRow);
+            Console.Write(Symbol.line_H);
+        }
+        Console.SetCursorPosition(offsetCol + xPoints / 2 + 1, originRow);
+        Console.Write(" " + xAxisName);
+
+        for (int r = offsetRow - 1; r >= offsetRow - yPoints / 2; r--)
+        {
+            Console.SetCursorPosition(originCol, r);
+            Console.Write(Symbol.line_V);
+        }
+        Console.SetCursorPosition(originCol - 3, offsetRow - yPoints / 2 - 1);
+        Console.Write(yAxisName);
+    }
+
+
+    private void DrawAllXYPoints()
+    {
+        var chars = getCharsRepresentingPoints();
+        foreach (var key in chars.Keys)
+        {
+            Console.SetCursorPosition(key.Item1 + offsetCol, offsetRow - key.Item2);
+            Console.Write(chars[key]);
+        }
+    }
+    #endregion
 }

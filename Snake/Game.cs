@@ -1,6 +1,5 @@
 ﻿class Game
 {
-    private Random rng;
     private int width;
     private int height;
     private Snake snake;
@@ -8,9 +7,8 @@
     public Square tail { get; private set; }
     public Square apple { get; private set; }
 
-    public Game(Random rng, int width, int height, Direction startingDirection)
+    public Game(int width, int height, Direction startingDirection)
     {
-        this.rng = rng;
         this.width = width;
         this.height = height;
         var halfW = width / 2;
@@ -20,7 +18,7 @@
         snake = new Snake(centreW, centreH, startingDirection); 
         head = snake.head;
         tail = snake.tail;
-        updateApple();
+        apple = getNewApplePosition();
     }
 
     public bool clockTick(Direction d)
@@ -29,7 +27,7 @@
         head = snake.head;
         if (head.isSameSquareAs(apple))
         {
-            updateApple();
+            apple = getNewApplePosition();
         }
         else
         {
@@ -46,15 +44,15 @@
         return x < 0 || y < 0 || x == width || y == height; 
     }
 
-    private void updateApple()
+    private Square getNewApplePosition()
     {
         Square sq;
         do
         {
-            sq = new Square(rng.Next(width / 2) * 2, rng.Next(height / 2) * 2);
+            sq = new Square(random((width-2) / 2) * 2, random((height -2)/ 2) * 2-2);
 
         } while (snake.bodyCovers(sq));
-        apple = sq;
+        return sq;
     }
 
     internal int GetScore() => snake.Length() - 2;

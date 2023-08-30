@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PackageSource", "PackageSource\PackageSource.csproj", "{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "PackageSource\Library.csproj", "{7EF0C066-4C92-4FF5-9FDE-15B39F1B741C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphTest", "GraphTest\GraphTest.csproj", "{64FCC865-BA86-44F5-AABC-70E16E62BA66}"
 EndProject

@@ -1,4 +1,4 @@
-﻿using static EntryPoints;
+﻿using static SystemCalls;
 
 class Program
 {
@@ -7,7 +7,7 @@ class Program
         var g = new XYGraph() { xMin = 0, xMax = Math.PI *2 };
         g.PlotFunction(Math.Sin);
         g.PlotFunction(Math.Cos);
-        Display.DrawXYGraph(g);
-        Keyboard.readKeyWithoutPrinting();
+        g.Draw();
+        readKey();
     }
 }

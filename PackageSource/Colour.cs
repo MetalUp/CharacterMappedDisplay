@@ -32,11 +32,11 @@
         //
         // Summary:
         //     The color gray.
-        Gray = 7,
+        Grey = 7,
         //
         // Summary:
         //     The color dark gray.
-        DarkGray = 8,
+        DarkGrey = 8,
         //
         // Summary:
         //     The color blue.
