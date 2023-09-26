@@ -17,7 +17,7 @@
         var centreH = halfH % 2 == 0 ? halfH : halfH + 1; 
         snake = new Snake(centreW, centreH, startingDirection); 
         head = snake.head;
-        tail = snake.tail;
+        tail = snake.tail();
         setNewApplePosition();
     }
 
@@ -33,7 +33,7 @@
         {
             snake.advanceTailOneSquare();
         }
-        tail = snake.tail;
+        tail = snake.tail();
         return !HasHitEdge() && !snake.hasHitItself();
     }
 

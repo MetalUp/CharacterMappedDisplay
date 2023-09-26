@@ -1,29 +1,27 @@
 ﻿class Snake
-    private property body = new Queue<Square>();
+    private property body as Queue<Square>
     property head as Square
     property tail as Square 
 
-    public Snake(int x, int y, Direction startingDirection)
-    {
-        var tail = new Square(x, y);
+    constructor Snake(int x, int y, Direction startingDirection)
+        body = new Queue<Square>()
+        var tail = new Square(x, y)
         body.Enqueue(tail);
-        head = tail.getAdjacentSquare(startingDirection);
-    }
+        head = tail.getAdjacentSquare(startingDirection)
+    end constructor
 
-    public bool hasHitItself() => bodyCovers(head);
+    function hasHitItself() as Bool -> bodyCovers(head)
 
-    public bool bodyCovers(Square sq) => body.Any(seg => seg.isSameSquareAs(sq));
+    function bodyCovers(Square sq) as Bool -> body.Any(seg => seg.isSameSquareAs(sq))
 
-    public void advanceHeadOneSquare(Direction d)
-    {
-        body.Enqueue(head);
-        head = head.getAdjacentSquare(d);
-    }
+    procedure advanceHeadOneSquare(d Direction)
+        body.Enqueue(head)
+        head = head.getAdjacentSquare(d)
+    end procedure
 
-    public void advanceTailOneSquare()
-    {
-        body.Dequeue();
-    }
+    procedure advanceTailOneSquare()
+        body.Dequeue()
+    end procecdure
 
-    public int Length() => body.Count;
+    function length() as Int -> body.Count
 end class

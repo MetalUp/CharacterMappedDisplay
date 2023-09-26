@@ -1,17 +1,17 @@
 ﻿class Game
-    private property width = 0
-    private property height = 0
-    private property snake Snake
-    property head Square
-    property apple Square
+    private property width as Int
+    private property height as Int
+    private property snake as Snake
+    property head as Square
+    property apple as Square
 
-    constructor width Int, height Int,  startingDirection Direction)
+    constructor (width Int, height Int, startingDirection Direction)
         self.width = width
         self.height = height;
         var halfW = width / 2;
         var halfH = height / 2;
-        var centreW = halfW % 2 == 0 ? halfW : halfW + 1 //Ensure even number
-        var centreH = halfH % 2 == 0 ? halfH : halfH + 1 
+        var centreW = if halfW % 2 is 0 then halfW else halfW + 1 # Ensure even number
+        var centreH = if halfH % 2 is 0 then halfH else halfH + 1 
         snake = new Snake(centreW, centreH, startingDirection) 
         head = snake.head
         tail = snake.tail()
@@ -47,5 +47,4 @@
     end procedure
 
     function getScore() as Int -> snake.length() - 2
-
 end class
