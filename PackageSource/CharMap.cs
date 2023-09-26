@@ -1,4 +1,4 @@
-﻿public abstract class CharacterMap
+﻿public abstract class CharMap
 {
     public const char empty = ' ';
 
@@ -11,7 +11,7 @@
     protected int cursorCol = 0;
     protected int cursorRow = 0;
 
-    public CharacterMap()
+    public CharMap()
     {
         //TODO specify size in constructor (with default option) and make the console window that size.
         width = Console.WindowWidth;

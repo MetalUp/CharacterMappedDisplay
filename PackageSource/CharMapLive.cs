@@ -1,4 +1,4 @@
-﻿public class CharacterMapLive: CharacterMap
+﻿public class CharMapLive: CharMap
 {
 
     public override void putChar(int col, int row, char c, Colour foreground, Colour background)

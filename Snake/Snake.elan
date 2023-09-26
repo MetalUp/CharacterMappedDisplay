@@ -1,8 +1,7 @@
-﻿public class Snake
-{
-    private Queue<Square> body = new Queue<Square>();
-    public Square head { get; private set; }
-    public Square tail()  =>  body.Peek();
+﻿class Snake
+    private property body = new Queue<Square>();
+    property head as Square
+    property tail as Square 
 
     public Snake(int x, int y, Direction startingDirection)
     {
@@ -27,4 +26,4 @@
     }
 
     public int Length() => body.Count;
-}
+end class

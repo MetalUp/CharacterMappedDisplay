@@ -18,7 +18,7 @@
         snake = new Snake(centreW, centreH, startingDirection); 
         head = snake.head;
         tail = snake.tail;
-        apple = getNewApplePosition();
+        setNewApplePosition();
     }
 
     public bool clockTick(Direction d)
@@ -27,7 +27,7 @@
         head = snake.head;
         if (head.isSameSquareAs(apple))
         {
-            apple = getNewApplePosition();
+            setNewApplePosition();
         }
         else
         {
@@ -44,7 +44,7 @@
         return x < 0 || y < 0 || x == width || y == height; 
     }
 
-    private Square getNewApplePosition()
+    private void setNewApplePosition()
     {
         Square sq;
         do
@@ -52,7 +52,7 @@
             sq = new Square(random((width-2) / 2) * 2, random((height -2)/ 2) * 2-2);
 
         } while (snake.bodyCovers(sq));
-        return sq;
+        apple = sq;
     }
 
     internal int GetScore() => snake.Length() - 2;

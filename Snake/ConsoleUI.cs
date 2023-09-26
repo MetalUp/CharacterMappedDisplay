@@ -1,16 +1,12 @@
-﻿
-class ConsoleUI
+﻿class ConsoleUI
 {
     const Colour bodyColour = Colour.Green;
     const Colour appleColour = Colour.Red;
 
-
-
-
     public static void Main()
     {
-        //printLine(welcome);
-        //var k = readKey();
+        printLine(welcome);
+        var k = readKey();
         bool newGame = true;
         while (newGame)
         {
@@ -27,17 +23,13 @@ class ConsoleUI
 
     private static void playGame()
     {
-        var charMap = new CharacterMapLive();
-        charMap.setCursor(0, 0);
+        var charMap = new CharMapLive();
         charMap.fillBackground();
         var currentDirection = Direction.Right;
         var game = new Game(charMap.width, charMap.height, currentDirection);
         bool gameOn = true;
-
         while (gameOn)
         {
-
-
             var head = game.head;
             charMap.putBlock(head.x, head.y, bodyColour);
             charMap.putBlock(head.x + 1, head.y, bodyColour);
@@ -68,6 +60,7 @@ class ConsoleUI
             //charMap.display(); //needed if using a CharacterMapBuffered
         }
         clearKeyBuffer();
+        charMap.setCursor(0, 0);
         printLine($"Game Over! Score: {game.GetScore()}");
     }
 
